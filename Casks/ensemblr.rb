@@ -30,6 +30,12 @@ cask "ensemblr" do
   auto_updates true
   depends_on arch: :arm64
   depends_on macos: :monterey
+  # Everything Ensemblr does with GitHub shells out to `gh` — cloning a
+  # repository, the backlog board, the remote branch list, `gh pr create` and
+  # `gh pr merge` — and it resolves the binary from the login-shell PATH it
+  # captures, so a Homebrew-installed `gh` is the one it finds. Homebrew can put
+  # it on disk but cannot sign it in; `gh auth login` stays the user's step.
+  depends_on formula: "gh"
 
   app "Ensemblr.app"
 
