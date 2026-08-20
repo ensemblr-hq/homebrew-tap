@@ -1,0 +1,84 @@
+name: brew test-bot
+
+# Cask-only tap: there is nothing to build and no bottle to upload, so this
+# checks the three things that can actually break — the Ruby is well formed, the
+# cask passes audit against the live release, and the URL still serves a file
+# whose checksum matches the `sha256` stanza. `brew fetch` is what catches a bad
+# automated bump, which is the failure mode this tap is exposed to.
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash -xeuo pipefail {0}
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-bot:
+    runs-on: macos-26
+    permissions:
+      actions: read
+      checks: read
+      contents: read
+      pull-requests: read
+    env:
+      CASK: ensemblr-hq/tap/ensemblr
+    steps:
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@fd832223f9f99ebf0244dd20658680e5d4aca049 # 2026.08.03.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache Homebrew Bundler RubyGems
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: macos-26-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: macos-26-rubygems-
+
+      - run: brew test-bot --only-cleanup-before
+
+      - run: brew test-bot --only-tap-syntax
+
+      # `github_prerelease_version` is excluded, and only that one: it enforces
+      # homebrew-cask's own policy of not shipping prereleases, which every
+      # Ensemblr release is until 1.0. Submitting upstream is out of scope for
+      # exactly that reason — dropping the whole audit instead would lose the 40
+      # checks that do apply.
+      - name: Audit the cask against the live release
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: brew audit --cask --online --strict --except=github_prerelease_version "$CASK"
+
+      # Proves the `sha256` stanza still describes what `url` serves. An
+      # automated bump that wrote one and not the other fails here rather than on
+      # a user's machine.
+      - name: Verify the download matches the declared checksum
+        run: brew fetch --cask "$CASK"
+
+      # Every release is a prerelease, so the custom `:github_releases` block is
+      # load-bearing. A silent `nil` here means `brew livecheck` has stopped
+      # seeing new versions.
+      - name: Check livecheck still resolves a version
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          newest=$(brew livecheck --cask --newer-only --quiet --json "$CASK" | jq -r '.[0].version.latest // empty')
+          if [ -z "$newest" ]; then
+            newest=$(brew livecheck --cask --quiet --json "$CASK" | jq -r '.[0].version.latest // empty')
+          fi
+          if [ -z "$newest" ]; then
+            echo "::error::livecheck resolved no version for $CASK"
+            exit 1
+          fi
+          echo "livecheck sees $newest"
