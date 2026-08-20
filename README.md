@@ -28,6 +28,16 @@ Ensemblr is Apple silicon only and needs macOS Monterey or newer — the cask
 declares both, so `brew` refuses rather than installing something that cannot
 run.
 
+The cask also depends on the GitHub CLI (`gh`), which Ensemblr shells out to for
+cloning a repository, the backlog board, remote branch lists and pull requests.
+Homebrew installs it for you, but it cannot sign it in — that step is yours:
+
+```sh
+gh auth login
+```
+
+Uninstalling the cask leaves `gh` behind; `brew uninstall gh` removes it.
+
 ## Updating
 
 Ensemblr updates itself: the app checks for a new release on launch and installs
