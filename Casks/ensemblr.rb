@@ -1,6 +1,6 @@
 cask "ensemblr" do
-  version "0.1.0-beta.14"
-  sha256 "1fb1c185adc4c059f1e5c8c29e3cf0534c1cf2b4622914e7d4ddf6eab395eef4"
+  version "0.1.0-beta.15"
+  sha256 "9e23cb8942a3116945b508c99a7d9dee1d449ebc99ff3603721a5a0758f7beac"
 
   url "https://github.com/ensemblr-hq/ensemblr/releases/download/v#{version}/Ensemblr-#{version}-arm64.dmg",
       verified: "github.com/ensemblr-hq/ensemblr/"
