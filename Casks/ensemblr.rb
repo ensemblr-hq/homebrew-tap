@@ -29,7 +29,9 @@ cask "ensemblr" do
 
   auto_updates true
   depends_on arch: :arm64
-  depends_on macos: :monterey
+  # Electron 44 dropped Monterey, so Ventura is the floor the app can actually
+  # launch on.
+  depends_on macos: :ventura
   # Everything Ensemblr does with GitHub shells out to `gh` — cloning a
   # repository, the backlog board, the remote branch list, `gh pr create` and
   # `gh pr merge` — and it resolves the binary from the login-shell PATH it

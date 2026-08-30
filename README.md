@@ -24,7 +24,7 @@ tap "ensemblr-hq/tap"
 cask "ensemblr"
 ```
 
-Ensemblr is Apple silicon only and needs macOS Monterey or newer — the cask
+Ensemblr is Apple silicon only and needs macOS Ventura or newer — the cask
 declares both, so `brew` refuses rather than installing something that cannot
 run.
 
