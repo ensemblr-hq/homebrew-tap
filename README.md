@@ -1,6 +1,8 @@
 # Ensemblr Homebrew tap
 
 The Homebrew cask for [Ensemblr](https://www.ensemblr.dev) — a macOS
+
+[![Ensemblr on StartupScores](https://startupscores.com/badge/ensemblr.svg?style=shield&v=combo&theme=dark)](https://startupscores.com/open-source/ensemblr)
 orchestrator for Pi and Claude Code, where every stream of work gets its own git
 worktree and an agent can drive the app itself.
 
