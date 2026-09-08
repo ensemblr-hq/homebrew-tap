@@ -2,8 +2,7 @@ cask "ensemblr" do
   version "0.1.10"
   sha256 "31fea1d574647f388cd2b3b2e77255b7441b07464360a35a07bfae2b53aeb822"
 
-  url "https://github.com/ensemblr-hq/ensemblr/releases/download/v#{version}/Ensemblr-#{version}-arm64.dmg",
-      verified: "github.com/ensemblr-hq/ensemblr/"
+  url "https://github.com/ensemblr-hq/ensemblr/releases/download/v#{version}/Ensemblr-#{version}-arm64.dmg"
   name "Ensemblr"
   desc "Orchestrator for multi-agent coding workflows in isolated git worktrees"
   homepage "https://www.ensemblr.dev/"
