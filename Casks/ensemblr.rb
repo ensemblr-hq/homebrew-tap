@@ -1,8 +1,11 @@
 cask "ensemblr" do
-  version "0.1.19"
-  sha256 "6c49dfb5af4cacb18da26436c8546e6bca91d707a0c0b3a5a002bc2d388c856b"
+  arch arm: "arm64", intel: "x64"
 
-  url "https://github.com/ensemblr-hq/ensemblr/releases/download/v#{version}/Ensemblr-#{version}-arm64.dmg"
+  version "0.1.20"
+  sha256 arm:   "f4c800b5eb05f9740e7ca3bb0b83f0ad29da3a3915d81f920268e2ad8c6169bc",
+         intel: "7bf6ab1298ef82c72ee28f8a849f127d9ba7c5a23ed30498e10ad221d3adb30f"
+
+  url "https://github.com/ensemblr-hq/ensemblr/releases/download/v#{version}/Ensemblr-#{version}-#{arch}.dmg"
   name "Ensemblr"
   desc "Orchestrator for multi-agent coding workflows in isolated git worktrees"
   homepage "https://www.ensemblr.dev/"
@@ -27,16 +30,15 @@ cask "ensemblr" do
   end
 
   auto_updates true
-  depends_on arch: :arm64
-  # Electron 44 dropped Monterey, so Ventura is the floor the app can actually
-  # launch on.
-  depends_on macos: :ventura
   # Everything Ensemblr does with GitHub shells out to `gh` — cloning a
   # repository, the backlog board, the remote branch list, `gh pr create` and
   # `gh pr merge` — and it resolves the binary from the login-shell PATH it
   # captures, so a Homebrew-installed `gh` is the one it finds. Homebrew can put
   # it on disk but cannot sign it in; `gh auth login` stays the user's step.
   depends_on formula: "gh"
+  # Electron 44 dropped Monterey, so Ventura is the floor the app can actually
+  # launch on.
+  depends_on macos: :ventura
 
   app "Ensemblr.app"
 
