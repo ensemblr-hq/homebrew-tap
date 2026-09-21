@@ -24,9 +24,9 @@ tap "ensemblr-hq/tap"
 cask "ensemblr"
 ```
 
-Ensemblr is Apple silicon only and needs macOS Ventura or newer — the cask
-declares both, so `brew` refuses rather than installing something that cannot
-run.
+Ensemblr ships for both Apple silicon and Intel Macs and needs macOS Ventura or
+newer — the cask picks the right download for your architecture and declares the
+macOS floor, so `brew` refuses rather than installing something that cannot run.
 
 The cask also depends on the GitHub CLI (`gh`), which Ensemblr shells out to for
 cloning a repository, the backlog board, remote branch lists and pull requests.
