@@ -1,9 +1,9 @@
 cask "ensemblr" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.1.20"
-  sha256 arm:   "f4c800b5eb05f9740e7ca3bb0b83f0ad29da3a3915d81f920268e2ad8c6169bc",
-         intel: "7bf6ab1298ef82c72ee28f8a849f127d9ba7c5a23ed30498e10ad221d3adb30f"
+  version "0.1.21"
+  sha256 arm:   "81f3eb47d3f26bf1edcc1513ba9bbfd09c1a0f3ab32c0f9d5b19d16b745652be",
+         intel: "22df092f3766a6250780fb02efa34403cb329747cb97a2c98532a7a8f1c702d0"
 
   url "https://github.com/ensemblr-hq/ensemblr/releases/download/v#{version}/Ensemblr-#{version}-#{arch}.dmg"
   name "Ensemblr"
@@ -29,7 +29,6 @@ cask "ensemblr" do
     end
   end
 
-  auto_updates true
   # Everything Ensemblr does with GitHub shells out to `gh` — cloning a
   # repository, the backlog board, the remote branch list, `gh pr create` and
   # `gh pr merge` — and it resolves the binary from the login-shell PATH it
