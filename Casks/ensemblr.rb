@@ -1,9 +1,9 @@
 cask "ensemblr" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.1.24"
-  sha256 arm:   "42128ba71cbb28be77fba713ae68678a2708998e8e0f3345aebf6277ebab7291",
-         intel: "bcc6bef18b96f510f1990725d857ae2f914630146f4fb3a3842905a3e4697850"
+  version "0.2.0"
+  sha256 arm:   "7c14eea49da078defd4b3944cd85ff9c66049b5b0e9c497dec50d2dbc82c8ecf",
+         intel: "5d21a04c02fdbce431ffd6d3e243fc4ad84359891430cd7272fadcf3e8e5954a"
 
   url "https://github.com/ensemblr-hq/ensemblr/releases/download/v#{version}/Ensemblr-#{version}-#{arch}.dmg"
   name "Ensemblr"
